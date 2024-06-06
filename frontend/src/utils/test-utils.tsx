@@ -7,26 +7,26 @@ import type { AppStore, RootState } from "../app/store"
 import { makeStore } from "../app/store"
 
 /**
- * This type extends the default options for
- * React Testing Library's render function. It allows for
- * additional configuration such as specifying an initial Redux state and
- * a custom store instance.
+ * Ce type étend les options par défaut pour
+ * Fonction de rendu de React Testing Library. Il permet de
+ * configuration supplémentaire telle que la spécification d'un état Redux initial et
+ * une instance de magasin personnalisé.
  */
 interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   /**
-   * Defines a specific portion or the entire initial state for the Redux store.
-   * This is particularly useful for initializing the state in a
-   * controlled manner during testing, allowing components to be rendered
-   * with predetermined state conditions.
+   * Définit une partie spécifique ou l'intégralité de l'état initial du magasin Redux.
+   * Ceci est particulièrement utile pour initialiser l'état dans un
+   * de manière contrôlée pendant les tests, permettant le rendu des composants
+   * avec des conditions d'état prédéterminées.
    */
   preloadedState?: Partial<RootState>
 
   /**
-   * Allows the use of a specific Redux store instance instead of a
-   * default or global store. This flexibility is beneficial when
-   * testing components with unique store requirements or when isolating
-   * tests from a global store state. The custom store should be configured
-   * to match the structure and middleware of the store used by the application.
+   * Permet l'utilisation d'une instance de magasin Redux spécifique au lieu d'un
+   * magasin par défaut ou global. Cette flexibilité est bénéfique lorsque
+   * tester les composants avec des exigences de magasin uniques ou lors de l'isolement
+   * tests à partir d'un état de magasin global. Le magasin personnalisé doit être configuré
+   * pour correspondre à la structure et au middleware du magasin utilisé par l'application.
    *
    * @default makeStore(preloadedState)
    */
@@ -34,12 +34,12 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
 }
 
 /**
- * Renders the given React element with Redux Provider and custom store.
- * This function is useful for testing components that are connected to the Redux store.
+ * Rend l'élément React donné avec le fournisseur Redux et le magasin personnalisé.
+ * Cette fonction est utile pour tester les composants connectés au magasin Redux.
  *
- * @param ui - The React component or element to render.
- * @param extendedRenderOptions - Optional configuration options for rendering. This includes `preloadedState` for initial Redux state and `store` for a specific Redux store instance. Any additional properties are passed to React Testing Library's render function.
- * @returns An object containing the Redux store used in the render, User event API for simulating user interactions in tests, and all of React Testing Library's query functions for testing the component.
+ * @param ui - Le composant ou l'élément React à restituer.
+ * @param extendedRenderOptions - Options de configuration facultatives pour le rendu. Cela inclut « preloadedState » pour l'état Redux initial et « store » pour une instance de magasin Redux spécifique. Toutes les propriétés supplémentaires sont transmises à la fonction de rendu de React Testing Library.
+ * @returns Un objet contenant le magasin Redux utilisé dans le rendu, l'API d'événement utilisateur pour simuler les interactions utilisateur dans les tests et toutes les fonctions de requête de React Testing Library pour tester le composant.
  */
 export const renderWithProviders = (
   ui: ReactElement,
@@ -47,7 +47,7 @@ export const renderWithProviders = (
 ) => {
   const {
     preloadedState = {},
-    // Automatically create a store instance if no store was passed in
+    // Crée automatiquement une instance de magasin si aucun magasin n'a été transmis
     store = makeStore(preloadedState),
     ...renderOptions
   } = extendedRenderOptions
@@ -56,7 +56,7 @@ export const renderWithProviders = (
     <Provider store={store}>{children}</Provider>
   )
 
-  // Return an object with the store and all of RTL's query functions
+  // Renvoie un objet avec le store et toutes les fonctions de requête de RTL
   return {
     store,
     user: userEvent.setup(),

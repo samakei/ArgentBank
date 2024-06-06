@@ -1,5 +1,4 @@
-
-
+//Composant/Hero.tsx
 const Hero = () => {
   return (
     <div className="hero">

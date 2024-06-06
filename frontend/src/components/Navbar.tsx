@@ -1,9 +1,12 @@
-
+//Composant/Navbar.tsx
 import { Link } from "react-router-dom";
 import logo from "../assets/argentBankLogo.webp";
 
 const Navbar = () => {
+
+  
   return (
+    
     <nav className="main-nav">
       <Link className="main-nav-logo" to="/">
         <img

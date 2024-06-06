@@ -1,12 +1,12 @@
-// This file serves as a central hub for re-exporting pre-typed Redux hooks.
-// These imports are restricted elsewhere to ensure consistent
-// usage of typed hooks throughout the application.
-// We disable the ESLint rule here because this is the designated place
-// for importing and re-exporting the typed versions of hooks.
+// Ce fichier sert de hub central pour la réexportation des hooks Redux pré-typés.
+// Ces importations sont restreintes ailleurs pour garantir une cohérence
+// utilisation de hooks typés dans toute l'application.
+// Nous désactivons ici la règle ESLint car c'est l'endroit désigné
+// pour importer et réexporter les versions typées des hooks.
 /* eslint-disable @typescript-eslint/no-restricted-imports */
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "./store"
 
-// Use throughout your app instead of plain `useDispatch` and `useSelector`
+// Utiliser dans toute votre application au lieu de `useDispatch` et `useSelector`
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()

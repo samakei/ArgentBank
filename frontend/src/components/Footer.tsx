@@ -1,4 +1,4 @@
-
+// Composant/Footer.tsx
 const Footer = () => {
   return (
     <footer className="footer">
