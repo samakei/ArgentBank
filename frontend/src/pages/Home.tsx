@@ -1,12 +1,14 @@
 // src/components/Home.tsx
-import { Link } from "react-router-dom"
+import Hero from "../components/Hero"
+import Features from "../components/Features"
 
 const Home = () => {
   return (
     <div>
-      <h1>Home Page</h1>
-      <Link to="/sign-in">Sign In</Link>
+     <Hero />
+     <Features />
     </div>
+   
   )
 }
 

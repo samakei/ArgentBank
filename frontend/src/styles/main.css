@@ -13,13 +13,16 @@ body {
   min-height: 100vh;
 }
 
-.main {
-  flex: 1;
-}
 
-.bg-dark {
+
+.bg-dark{
+  display: flex;
   background-color: #12002b;
-  
+
+}
+.main-bg{
+  min-height: 85vh;
+  flex: 1;
 }
 
 .sr-only {
@@ -78,8 +81,11 @@ body {
   background-repeat: no-repeat;
   height: 300px;
   position: relative;
-}
 
+}
+ .hero img{
+ object-fit: cover;
+ }
 .hero-content {
   position: relative;
   top: 2rem;

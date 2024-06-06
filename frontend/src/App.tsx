@@ -1,8 +1,6 @@
 // Pieds d'applications
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Features from './components/Features';
 import Home from './pages/Home'
 import SiGnIn from './pages/SiGnIn'
 import Footer from './components/Footer';
@@ -15,7 +13,7 @@ const App = () => {
         <Navbar />
         <main>
           <Routes>
-            <Route path="/" element={<><Hero /><Features /></>} />
+            
             {/* Ajout d'autres routes si nécessaire */}
              <Route path="/" element={<Home />} />
              <Route path="/sign-in" element={<SiGnIn />} />
