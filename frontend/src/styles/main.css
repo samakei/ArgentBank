@@ -77,8 +77,8 @@ body {
 .hero {
   background-image: url('../assets/bank-tree.jpeg');
   background-position: 0 -50px;
-   background-size: cover;
   background-repeat: no-repeat;
+  background-size: cover;
   height: 300px;
   position: relative;
 
