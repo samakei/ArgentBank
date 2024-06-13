@@ -2,7 +2,7 @@
 import Hero from "../components/Hero"
 import Features from "../components/Features"
 
-const Home = () => {
+const HomePage = () => {
   return (
     <div>
      <Hero />
@@ -12,4 +12,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default HomePage

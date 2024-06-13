@@ -18,11 +18,12 @@ body {
 .bg-dark{
   display: flex;
   background-color: #12002b;
+  
 
 }
-.main-bg{
-  min-height: 80vh;
+.color-dark{
   flex: 1;
+  min-height: 80vh;
 }
 
 .sr-only {
@@ -182,7 +183,7 @@ body {
 }
 
 .sign-in-icon {
-  font-size: 5rem;
+  font-size: 2rem;
 }
 
 .input-remember {

@@ -1,13 +1,17 @@
 // Pieds d'applications
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home'
-import SiGnIn from './pages/SiGnIn'
+import HomePage from './pages/HomePage'
 import Footer from './components/Footer';
 import './styles/main.css'
+import Error404Page from './pages/Error404Page';
+import UserPage from './pages/UserPage';
+import SiGnInPage from './pages/SiGnInPage';
+
 
 const App = () => {
   return (
+    
     <Router>
       <div>
         <Navbar />
@@ -15,8 +19,11 @@ const App = () => {
           <Routes>
             
             {/* Ajout d'autres routes si nécessaire */}
-             <Route path="/" element={<Home />} />
-             <Route path="/sign-in" element={<SiGnIn />} />
+             <Route path="/" element={<HomePage />} />
+             <Route path='/sign-in' element={ <SiGnInPage />} />
+             <Route path='/user' element={< UserPage/>} />
+             <Route path="*" element={<Error404Page />} />
+
           </Routes>
         </main>
         <Footer />

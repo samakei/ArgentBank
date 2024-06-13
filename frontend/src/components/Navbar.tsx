@@ -5,8 +5,7 @@ import logo from "../assets/argentBankLogo.webp";
 const Navbar = () => {
 
   
-  return (
-    
+  return (  
     <nav className="main-nav">
       <Link className="main-nav-logo" to="/">
         <img

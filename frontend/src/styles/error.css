@@ -1,0 +1,28 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.error-404{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  background-color: #12002B;
+  color: #fff;
+}
+.titre-404{
+    font-size: 3rem;
+     margin-bottom: 1rem;
+     
+}
+.text-404{
+    font-size: large;
+}
+
+.lien-404{
+ text-decoration: underline;
+ color: #fff;
+  margin-top: 50px;
+}
+
