@@ -24,9 +24,9 @@ mongo --version
 ### Instructions
 
 1. Fork this repo
-1. Clone the repo onto your computer
-1. Open a terminal window in the cloned project
-1. Run the following commands:
+2. Clone the repo onto your computer
+3. Open a terminal window in the cloned project
+4. Run the following commands:
 
 ```bash
 # Install dependencies
@@ -56,7 +56,7 @@ Once you run the `populate-db` script, you should have two users in your databas
 
 - First Name: `Steve`,
 - Last Name: `Rogers`,
-- Email: `steve@rogers.com`,
+- Email: steve@rogers.com,
 - Password: `password456`
 
 ## API Documentation

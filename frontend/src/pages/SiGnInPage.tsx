@@ -1,13 +1,15 @@
 // src/components/SignInPage.tsx
-import SignIn from "../components/SiGnIn"//import composant/SignIN 
+
+import SignIn from "../components/SignIn";
+
 
 // src/components/SignIn.tsx
-const SiGnInPage = () => {
+const SignInPage = () => {
   return (
     <div>
-      < SignIn />
+    < SignIn />
     </div>
-  )
-}
+  );
+};
 
-export default SiGnInPage
+export default SignInPage

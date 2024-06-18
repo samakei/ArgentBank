@@ -1,11 +1,13 @@
+//import User from "../components/User"
+import User from "../components/User";
 
-import User from "../components/User"
 const UserPage = () => {
-  return (
+  return(
     <div>
-    < User />
-    </div>
-  )
-}
+   <User />
+   </div>
+  );
+    
+};
 
 export default UserPage 

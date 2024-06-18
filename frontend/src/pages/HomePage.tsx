@@ -1,6 +1,6 @@
 // src/components/Home.tsx
-import Hero from "../components/Hero"
-import Features from "../components/Features"
+import Hero from "../components/Hero";
+import Features from "../components/Features";
 
 const HomePage = () => {
   return (
@@ -9,7 +9,7 @@ const HomePage = () => {
      <Features />
     </div>
    
-  )
-}
+  );
+};
 
 export default HomePage
