@@ -1,16 +1,17 @@
+//User.tsx
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { selectUser, updateUser, logout } from "../features/auth/authSlice";
 import { Navigate } from "react-router-dom";
 import UserAccount from "../components/UserAccount";
 
+
 const User = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const [editMode, setEditMode] = useState(false);
-  const [firstName, setFirstName] = useState(user?.firstName || "");
-  const [lastName, setLastName] = useState(user?.lastName || "");
-  const [shouldRedirect, setShouldRedirect] = useState(false); // Fixed initial state
+  const [pseudo, setPseudo] = useState(user?.pseudo || "");
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -28,36 +29,28 @@ const User = () => {
   };
 
   const handleSave = () => {
-    dispatch(updateUser({ firstName, lastName }));
-    setEditMode(false); // Corrigé pour désactiver le mode édition après la sauvegarde
+    dispatch(updateUser({ pseudo }));
+    setEditMode(false);
   };
 
-  const handleLogout = () => {
+ const handleLogout = () => {
     dispatch(logout());
-    setShouldRedirect(true); // Redirection vers la connexion après la déconnexion
+    setShouldRedirect(true);
   };
-
+ 
   return (
     <main className="bg-dark">
       <div className="color-dark">
         <div className="header">
           {editMode ? (
             <>
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="pseudo">Pseudo</label>
               <input
                 type="text"
-                id="firstName"
-                placeholder="Enter your first name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                placeholder="Enter your last name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                id="pseudo"
+                placeholder="Enter your pseudo"
+                value={pseudo}
+                onChange={(e) => setPseudo(e.target.value)}
               />
               <button type="button" className="save-button" onClick={handleSave}>
                 Save
@@ -65,18 +58,22 @@ const User = () => {
             </>
           ) : (
             <>
-              <h1>Welcome back<br />{user?.firstName} {user?.lastName}!</h1>
+              <h1>
+                Welcome back<br />
+                {user?.firstName} {user?.lastName}!
+              </h1>
+              <h2>Username: {user?.pseudo}</h2>
               <button type="button" className="edit-button" onClick={handleEdit}>
-                Edit Name
+                Edit Pseudo
               </button>
             </>
           )}
-          <button type="button" className="logout-button" onClick={handleLogout}>
+         <button type="button" className="logout-button" onClick={handleLogout}>
             Logout
-          </button>
-        </div>
-            <div>
-            <h2 className="sr-only">Accounts</h2>
+          </button> 
+           </div>
+        <h2 className="sr-only">Accounts</h2>
+        
           <UserAccount
             title="Argent Bank Checking (x8349)"
             amount="$2,082.79"
@@ -92,8 +89,7 @@ const User = () => {
             amount="$184.30"
             description="Current Balance"
           />
-          </div>
-       </div>
+      </div>
     </main>
   );
 };

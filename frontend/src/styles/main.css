@@ -25,7 +25,7 @@ body {
 }
 .color-dark{
   flex: 1;
-  min-height: 70vh;
+  min-height: 80vh;
 }
 
 .sr-only {
@@ -233,7 +233,7 @@ body {
   width: 80%;
   margin: 0 auto;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 0.5rem;
   box-sizing: border-box;
   text-align: left;
   margin-bottom: 2rem;

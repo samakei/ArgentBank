@@ -1,14 +1,14 @@
-// src/features/auth/authSlice.ts
-import { createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
 
 interface User {
-  // Ajoutez ici les propriétés nécessaires pour votre utilisateur
+  id:string;
   email: string;
   password: string;
   firstName: string;
   lastName: string;
+   pseudo: string;
 }
 
 interface AuthState {
@@ -23,6 +23,7 @@ const initialState: AuthState = {
   token: null,
   status: 'idle',
   error: null,
+   
 };
 
 // Action asynchrone pour la connexion
@@ -43,7 +44,6 @@ export const login = createAsyncThunk(
       }
 
       const data = await response.json();
-      // Stockez le token dans le localStorage ou une méthode de stockage sécurisée
       localStorage.setItem('token', data.token);
       return data;
     } catch (error) {
@@ -55,7 +55,7 @@ export const login = createAsyncThunk(
 // Action asynchrone pour mettre à jour les informations de l'utilisateur
 export const updateUser = createAsyncThunk(
   'auth/updateUser',
-  async (userData: { firstName: string; lastName: string }, thunkAPI) => {
+  async (userData: { pseudo?: string; firstName?: string; lastName?: string }, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
     const response = await fetch('http://localhost:3001/api/v1/user/profile', {
       method: 'PUT',
@@ -63,10 +63,7 @@ export const updateUser = createAsyncThunk(
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${state.auth.token}`,
       },
-      body: JSON.stringify({
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-      }),
+      body: JSON.stringify(userData),
     });
 
     if (!response.ok) {
@@ -85,9 +82,9 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      localStorage.removeItem('token'); // Nettoyer le localStorage lors de la déconnexion
+      localStorage.removeItem('token');
     },
-    //  ajouter d'autres reducers ici si nécessaire
+    // Ajoutez d'autres reducers ici si nécessaire
   },
   extraReducers: (builder) => {
     builder
