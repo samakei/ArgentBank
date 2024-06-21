@@ -5,7 +5,6 @@ import { selectUser, updateUser, logout } from "../features/auth/authSlice";
 import { Navigate } from "react-router-dom";
 import UserAccount from "../components/UserAccount";
 
-
 const User = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -13,10 +12,10 @@ const User = () => {
   const [pseudo, setPseudo] = useState(user?.pseudo || "");
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
+  // Vérifier si l'utilisateur est connecté, sinon rediriger
   useEffect(() => {
     if (!user) {
-      console.log("L'utilisateur n'est pas connecté, redirigé vers la connexion");
-      setShouldRedirect(false);
+      setShouldRedirect(true);
     }
   }, [user]);
 
@@ -24,20 +23,23 @@ const User = () => {
     return <Navigate to="/sign-in" />;
   }
 
+  // Passer en mode édition
   const handleEdit = () => {
     setEditMode(true);
   };
 
+  // Sauvegarder les changements de l'utilisateur
   const handleSave = () => {
     dispatch(updateUser({ pseudo }));
     setEditMode(false);
   };
 
- const handleLogout = () => {
+  // Déconnecter l'utilisateur
+  const handleLogout = () => {
     dispatch(logout());
     setShouldRedirect(true);
   };
- 
+
   return (
     <main className="bg-dark">
       <div className="color-dark">
@@ -58,37 +60,33 @@ const User = () => {
             </>
           ) : (
             <>
-              <h1>
-                Welcome back<br />
-                {user?.firstName} {user?.lastName}!
-              </h1>
-              <h2>Username: {user?.pseudo}</h2>
+              <h1>Welcome back<br/>
+              {user?.pseudo}!</h1>
               <button type="button" className="edit-button" onClick={handleEdit}>
                 Edit Pseudo
               </button>
             </>
           )}
-         <button type="button" className="logout-button" onClick={handleLogout}>
+          <button type="button" className="logout-button" onClick={handleLogout}>
             Logout
-          </button> 
-           </div>
+          </button>
+        </div>
         <h2 className="sr-only">Accounts</h2>
-        
-          <UserAccount
-            title="Argent Bank Checking (x8349)"
-            amount="$2,082.79"
-            description="Available Balance"
-          />
-          <UserAccount
-            title="Argent Bank Savings (x6712)"
-            amount="$10,928.42"
-            description="Available Balance"
-          />
-          <UserAccount
-            title="Argent Bank Credit Card (x8349)"
-            amount="$184.30"
-            description="Current Balance"
-          />
+        <UserAccount
+          title="Argent Bank Checking (x8349)"
+          amount="$2,082.79"
+          description="Available Balance"
+        />
+        <UserAccount
+          title="Argent Bank Savings (x6712)"
+          amount="$10,928.42"
+          description="Available Balance"
+        />
+        <UserAccount
+          title="Argent Bank Credit Card (x8349)"
+          amount="$184.30"
+          description="Current Balance"
+        />
       </div>
     </main>
   );

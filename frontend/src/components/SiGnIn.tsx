@@ -1,29 +1,34 @@
 //SignIn.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { login } from "../features/auth/authSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 
 const SignIn = () => {
   const dispatch = useAppDispatch();
-  const status = useAppSelector((state) => state.auth.status);
-  const error = useAppSelector((state) => state.auth.error);
+  const status = useAppSelector((state) => state.auth.status); // Récupère le statut de l'authentification
+  const error = useAppSelector((state) => state.auth.error); // Récupère les erreurs d'authentification
+  const token = useAppSelector((state) => state.auth.token); // Récupère le token d'authentification
 
+  // États pour stocker l'email et le mot de passe saisis par l'utilisateur
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Fonction pour gérer la soumission du formulaire de connexion
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Dispatch l'action login avec username et password
-    dispatch(login({ email, password }));
-
-    // Réinitialiser les champs après la soumission
-    setEmail("");
-    setPassword("");
+    e.preventDefault(); // Empêche le rechargement de la page
+    dispatch(login({ email, password })); // Déclenche l'action de connexion
   };
 
+  // Utilise useEffect pour stocker le token dans localStorage lorsque le token change
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token); // Stocke le token dans localStorage
+    }
+  }, [token]); // Dépendance sur le token
+
+  // Redirige vers la page utilisateur (profil) si l'authentification réussit
   if (status === "succeeded") {
-    // Redirection vers la page de l'utilisateur après la connexion réussie
     return <Navigate to="/user" />;
   }
 
@@ -35,12 +40,12 @@ const SignIn = () => {
           <h1>Sign In</h1>
           <form onSubmit={handleSubmit}>
             <div className="input-wrapper">
-              <label htmlFor="username">Nom d'utilisateur</label>
+              <label htmlFor="email">Email</label>
               <input
                 type="text"
-                id="username"
+                id="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)} // Met à jour l'état de l'email
               />
             </div>
             <div className="input-wrapper">
@@ -49,16 +54,13 @@ const SignIn = () => {
                 type="password"
                 id="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)} // Met à jour l'état du mot de passe
               />
-            </div>
-            <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
-              <label htmlFor="remember-me">Se souvenir de moi</label>
             </div>
             <button className="sign-in-button" type="submit">
               Sign In
             </button>
+            {/* Affiche un message d'erreur si l'authentification échoue */}
             {status === "failed" && <div className="error">{error}</div>}
           </form>
         </section>

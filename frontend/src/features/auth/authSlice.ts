@@ -1,16 +1,22 @@
+// src/features/auth/authSlice.ts
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
+import axios from 'axios';
 
+// Définir l'URL de base pour Axios
+axios.defaults.baseURL = 'http://localhost:3001/api/v1';
+
+// Interface pour l'utilisateur
 interface User {
-  id:string;
   email: string;
   password: string;
+  pseudo: string;
   firstName: string;
   lastName: string;
-   pseudo: string;
 }
 
+// Interface pour l'état d'authentification
 interface AuthState {
   user: User | null;
   token: string | null;
@@ -18,12 +24,12 @@ interface AuthState {
   error: string | null;
 }
 
+// État initial de l'authentification
 const initialState: AuthState = {
   user: null,
-  token: null,
+  token: localStorage.getItem('token'), // Récupérer le token du localStorage
   status: 'idle',
   error: null,
-   
 };
 
 // Action asynchrone pour la connexion
@@ -31,23 +37,13 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }: { email: string; password: string }, thunkAPI) => {
     try {
-      const response = await fetch('http://localhost:3001/api/v1/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await axios.post('/user/login', { email, password });
 
-      if (!response.ok) {
-        throw new Error('Échec de la connexion');
-      }
-
-      const data = await response.json();
-      localStorage.setItem('token', data.token);
+      const data = response.data;
+      localStorage.setItem('token', data.token); // Stocker le token
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -55,62 +51,75 @@ export const login = createAsyncThunk(
 // Action asynchrone pour mettre à jour les informations de l'utilisateur
 export const updateUser = createAsyncThunk(
   'auth/updateUser',
-  async (userData: { pseudo?: string; firstName?: string; lastName?: string }, thunkAPI) => {
+  async (userData: { pseudo: string }, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
-    const response = await fetch('http://localhost:3001/api/v1/user/profile', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${state.auth.token}`,
-      },
-      body: JSON.stringify(userData),
-    });
+    try {
+      const response = await axios.put('/user/profile', userData, {
+        headers: {
+          'Authorization': `Bearer ${state.auth.token}`, // Inclure le token dans les en-têtes
+        }
+      });
 
-    if (!response.ok) {
-      throw new Error('Échec de la mise à jour des informations');
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
-
-    const data = await response.json();
-    return data;
   }
 );
 
+// Création du slice pour l'authentification
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+
+    // Action pour la déconnexion
     logout: (state) => {
       state.user = null;
       state.token = null;
-      localStorage.removeItem('token');
+      localStorage.removeItem('token'); // Nettoyer le localStorage lors de la déconnexion
     },
-    // Ajoutez d'autres reducers ici si nécessaire
+    // Action pour définir le token
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
+
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'loading'; // Mise à jour de l'état lors de la connexion en cours
       })
       .addCase(login.fulfilled, (state, action: PayloadAction<{ user: User; token: string }>) => {
-        state.status = 'succeeded';
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.status = 'succeeded'; // Mise à jour de l'état lors de la connexion réussie
+        state.user = action.payload.user; // Stocker l'utilisateur connecté
+        state.token = action.payload.token; // Stocker le token JWT
       })
       .addCase(login.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        state.status = 'failed'; // Mise à jour de l'état lors de l'échec de la connexion
+        state.error = action.payload as string; // Stocker le message d'erreur
       })
       .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
+        state.user = action.payload; // Mise à jour des informations de l'utilisateur
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+// Exportation de l'action logout pour l'utiliser dans les composants
+export const { logout, setToken } = authSlice.actions;
 
+// Sélecteurs pour récupérer des données spécifiques de l'état
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectToken = (state: RootState) => state.auth.token;
 export const selectAuthStatus = (state: RootState) => state.auth.status;
 export const selectAuthError = (state: RootState) => state.auth.error;
 
+// Exportation du reducer pour l'ajouter au store
 export default authSlice.reducer;
+
+/*Explications
+    axios.defaults.baseURL : Définit l'URL de base pour toutes les requêtes Axios, simplifiant ainsi les requêtes en n'ayant à spécifier que les chemins relatifs.
+    login action : Utilise axios.post pour envoyer les informations de connexion et stocker le token dans localStorage.
+    updateUser action : Utilise axios.put pour envoyer les données mises à jour de l'utilisateur, avec le token inclus dans les en-têtes d'autorisation.
+    Error handling : Utilise error.response?.data?.message pour obtenir le message d'erreur du serveur si disponible. */

@@ -1,13 +1,11 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
-import { counterSlice } from "../features/counter/counterSlice"
-import { quotesApiSlice } from "../features/quotes/quotesApiSlice"
-import authSlice from "../features/auth/authSlice"
+import authReducer from "../features/auth/authSlice"
 
 // `combineSlices` combine automatiquement les réducteurs en utilisant
 // leurs `reducerPath`s, donc nous n'avons plus besoin d'appeler `combineReducers`.
-const rootReducer = combineSlices(counterSlice, quotesApiSlice, {auth: authSlice})
+const rootReducer = combineSlices( {auth: authReducer})
 // Déduire le type `RootState` à partir du réducteur racine
 export type RootState = ReturnType<typeof rootReducer>
 
@@ -18,9 +16,7 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
     reducer: rootReducer,
     // L'ajout du middleware API permet la mise en cache, l'invalidation, l'interrogation,
     // et d'autres fonctionnalités utiles de `rtk-query`.
-    middleware: getDefaultMiddleware => {
-      return getDefaultMiddleware().concat(quotesApiSlice.middleware)
-    },
+   
     preloadedState,
   })
   // configure les écouteurs en utilisant les valeurs par défaut fournies
