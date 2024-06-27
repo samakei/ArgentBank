@@ -1,7 +1,7 @@
 //User.tsx
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { selectUser, updateUser, logout } from "../features/auth/authSlice";
+import { selectUser, updateUser } from "../features/auth/authSlice";
 import { Navigate } from "react-router-dom";
 import UserAccount from "../components/UserAccount";
 
@@ -9,16 +9,19 @@ const User = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const [editMode, setEditMode] = useState(false);
+
   const [pseudo, setPseudo] = useState(user?.pseudo || "");
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   // Vérifier si l'utilisateur est connecté, sinon rediriger
   useEffect(() => {
-    if (!user) {
+    console.log(user)
+    if (user) {
       setShouldRedirect(true);
     }
   }, [user]);
 
+  // Rediriger l'utilisateur vers la page de connexion si shouldRedirect est true
   if (shouldRedirect) {
     return <Navigate to="/sign-in" />;
   }
@@ -34,15 +37,9 @@ const User = () => {
     setEditMode(false);
   };
 
-  // Déconnecter l'utilisateur
-  const handleLogout = () => {
-    dispatch(logout());
-    setShouldRedirect(true);
-  };
-
   return (
-    <main className="bg-dark">
-      <div className="color-dark">
+    <div className="color-main-account">
+      <main className="main bg-dark">
         <div className="header">
           {editMode ? (
             <>
@@ -60,17 +57,16 @@ const User = () => {
             </>
           ) : (
             <>
-              <h1>Welcome back<br/>
-              {user?.pseudo}!</h1>
+              <h1>Welcome back<br />
+                {user?.pseudo} {user.userName}!
+              </h1>
               <button type="button" className="edit-button" onClick={handleEdit}>
                 Edit Pseudo
               </button>
             </>
           )}
-          <button type="button" className="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
         </div>
+        
         <h2 className="sr-only">Accounts</h2>
         <UserAccount
           title="Argent Bank Checking (x8349)"
@@ -87,8 +83,8 @@ const User = () => {
           amount="$184.30"
           description="Current Balance"
         />
-      </div>
-    </main>
+      </main>
+    </div>
   );
 };
 

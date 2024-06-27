@@ -1,5 +1,5 @@
 //SignIn.tsx
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { login } from "../features/auth/authSlice";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
@@ -20,10 +20,11 @@ const SignIn = () => {
     dispatch(login({ email, password })); // Déclenche l'action de connexion
   };
 
-  // Utilise useEffect pour stocker le token dans localStorage lorsque le token change
+  //  useEffect pour stocker le token dans localStorage lorsque le token change
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token); // Stocke le token dans localStorage
+      
     }
   }, [token]); // Dépendance sur le token
 
@@ -33,8 +34,9 @@ const SignIn = () => {
   }
 
   return (
-    <main className="bg-dark">
-      <div className="color-dark">
+    <div className="color-main-account">
+     <main className="main bg-dark">
+      
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
           <h1>Sign In</h1>
@@ -64,8 +66,9 @@ const SignIn = () => {
             {status === "failed" && <div className="error">{error}</div>}
           </form>
         </section>
-      </div>
+
     </main>
+    </div>
   );
 };
 

@@ -11,6 +11,7 @@ const UserAccount: React.FC<UserAccountProps> = ({title, amount, description,  }
       <div>
         
         <section className="account">
+           
         <div className="account-content-wrapper">
           
             <h3 className="account-title">{title}</h3>

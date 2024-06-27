@@ -7,25 +7,25 @@ html {
 }
 
 body {
-  margin: 0;
   display: flex;
+  margin: 0;
   flex-direction: column;
   min-height: 100vh;
+  
+}
+.color-main-account{
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
 }
 
-.main{
+main{
   flex: 1;
 }
 
 .bg-dark{
-  display: flex;
   background-color: #12002b;
   
-
-}
-.color-dark{
-  flex: 1;
-  min-height: 80vh;
 }
 
 .sr-only {
@@ -233,10 +233,11 @@ body {
   width: 80%;
   margin: 0 auto;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 1.5rem;
   box-sizing: border-box;
   text-align: left;
   margin-bottom: 2rem;
+  
  
 }
 
@@ -294,6 +295,7 @@ body {
 
   .account-content-wrapper.cta {
     flex: 0;
+  
   }
 
   .transaction-button {

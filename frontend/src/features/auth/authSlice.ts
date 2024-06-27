@@ -4,14 +4,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
 import axios from 'axios';
 
-// Définir l'URL de base pour Axios
-axios.defaults.baseURL = 'http://localhost:3001/api/v1';
-
 // Interface pour l'utilisateur
 interface User {
   email: string;
   password: string;
   pseudo: string;
+  userName: string;
   firstName: string;
   lastName: string;
 }
@@ -39,10 +37,20 @@ export const login = createAsyncThunk(
     try {
       const response = await axios.post('/user/login', { email, password });
 
+      console.log('Réponse de l\'API:', response.data); // Journaliser la réponse complète
+
       const data = response.data;
-      localStorage.setItem('token', data.token); // Stocker le token
-      return data;
-    } catch (error) {
+      const token = data.body?.token;
+
+      if (!token) {
+        console.error('Token non retourné par l\'API:', data); // Journaliser la réponse si pas de token
+        throw new Error('Token non retourné par l\'API');
+      }
+
+      localStorage.setItem('token', token); // Stocker le token
+      return { user: data.body.user, token }; // Assurez-vous que `data.body.user` est correct
+    } catch (error: any) {
+      console.error('Erreur de connexion:', error); // Journaliser l'erreur pour débogage
       return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
@@ -62,7 +70,7 @@ export const updateUser = createAsyncThunk(
 
       const data = response.data;
       return data;
-    } catch (error) {
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
@@ -117,6 +125,7 @@ export const selectAuthError = (state: RootState) => state.auth.error;
 
 // Exportation du reducer pour l'ajouter au store
 export default authSlice.reducer;
+
 
 /*Explications
     axios.defaults.baseURL : Définit l'URL de base pour toutes les requêtes Axios, simplifiant ainsi les requêtes en n'ayant à spécifier que les chemins relatifs.

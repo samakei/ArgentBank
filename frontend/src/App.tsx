@@ -1,5 +1,5 @@
 // Pieds d'applications
-import  { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch } from './app/hooks';
 import { setToken } from './features/auth/authSlice';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -12,20 +12,19 @@ import Footer from './components/Footer';
 import './styles/main.css';
 
 const App = () => {
-
-const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
+       console.log('Token from localStorage:', token); // Debug log
       dispatch(setToken(token));
-    }
-  }, 
-  [dispatch]);
-
+    }  else {
+    console.warn('Token from localStorage is undefined or null');
+  }
+  }, [dispatch]);
 
   return (
-    
     <Router>
       <div>
         <Navbar />
@@ -34,14 +33,13 @@ const dispatch = useAppDispatch();
             <Route path="/" element={<HomePage />} />
             <Route path="/sign-in" element={<SignInPage />} />
             <Route path="/user" element={<UserPage />} />
-            {/* Ajout d'autres routes si nécessaire */}
+            {/* Route de secours pour les pages non trouvées */}
             <Route path="*" element={<Error404Page />} />
           </Routes>
         </main>
         <Footer />
       </div>
     </Router>
-    
   );
 };
 
