@@ -1,40 +1,62 @@
 //User.tsx
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { selectUser, updateUser } from "../features/auth/authSlice";
-import { Navigate } from "react-router-dom";
+import { fetchUserProfile, selectUser, updateUser, selectToken } from "../features/auth/authSlice";
 import UserAccount from "../components/UserAccount";
+import { Navigate } from "react-router-dom";
 
 const User = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const [editMode, setEditMode] = useState(false);
+  const token = useAppSelector(selectToken) || localStorage.getItem("token");
 
-  const [pseudo, setPseudo] = useState(user?.pseudo || "");
+  const [editMode, setEditMode] = useState(false);
+  const [pseudo, setPseudo] = useState(user?.userName || "");
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
-  // Vérifier si l'utilisateur est connecté, sinon rediriger
+  // useEffect pour récupérer le profil utilisateur si le token est présent
   useEffect(() => {
-    console.log(user)
-    if (user) {
+    if (!user && token) {
+      dispatch(fetchUserProfile())
+        .unwrap()
+        .then((fetchedUser) => {
+          console.log("Utilisateur récupéré :", fetchedUser);
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la récupération des données utilisateur :', error);
+          setShouldRedirect(true);
+        });
+    } else if (!token) {
       setShouldRedirect(true);
     }
-  }, [user]);
+  }, [user, token, dispatch]);
 
-  // Rediriger l'utilisateur vers la page de connexion si shouldRedirect est true
+  // Redirection vers la page de connexion si l'utilisateur n'est pas authentifié
   if (shouldRedirect) {
     return <Navigate to="/sign-in" />;
   }
 
-  // Passer en mode édition
+  // Gestion du passage en mode édition
   const handleEdit = () => {
     setEditMode(true);
   };
 
-  // Sauvegarder les changements de l'utilisateur
+  // Gestion de la sauvegarde des modifications
   const handleSave = () => {
-    dispatch(updateUser({ pseudo }));
+    if (user) {
+      dispatch(updateUser({ userName: pseudo }))
+        .unwrap()
+        .then(() => setEditMode(false))
+        .catch((error) => {
+          console.error('Erreur de mise à jour du pseudo :', error);
+        });
+    }
+  };
+
+  // Gestion de l'annulation des modifications
+  const handleCancel = () => {
     setEditMode(false);
+    setPseudo(user?.userName || "");
   };
 
   return (
@@ -42,31 +64,56 @@ const User = () => {
       <main className="main bg-dark">
         <div className="header">
           {editMode ? (
-            <>
-              <label htmlFor="pseudo">Pseudo</label>
+            <div className="edit_form">
+              <h1>Edit username</h1>
+              <label htmlFor="edit-pseudo">Pseudo</label>
               <input
                 type="text"
-                id="pseudo"
-                placeholder="Enter your pseudo"
+                id="edit-pseudo"
+                placeholder="Enter your new pseudo"
                 value={pseudo}
                 onChange={(e) => setPseudo(e.target.value)}
               />
+              <div>
+                <label htmlFor="firstName">First name :</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  value={user?.firstName || ""}
+                  disabled
+                  className="text_input"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName">Last name :</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  value={user?.lastName || ""}
+                  disabled
+                  className="text_input"
+                />
+              </div>
               <button type="button" className="save-button" onClick={handleSave}>
                 Save
               </button>
-            </>
+              <button type="button" className="cancel-button" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
           ) : (
-            <>
-              <h1>Welcome back<br />
-                {user?.pseudo} {user.userName}!
-              </h1>
+            <div>
+              <h2>
+                Welcome back<br />
+                {user?.userName || "User"}!
+              </h2>
               <button type="button" className="edit-button" onClick={handleEdit}>
                 Edit Pseudo
               </button>
-            </>
+            </div>
           )}
         </div>
-        
+
         <h2 className="sr-only">Accounts</h2>
         <UserAccount
           title="Argent Bank Checking (x8349)"

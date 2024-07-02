@@ -277,3 +277,69 @@ body {
     width: 200px;
   }
 }
+/*fin*/
+.edit-form {
+  padding: 20px;
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 260px;
+  background: white;
+  border-radius: 10px;
+}
+
+.edit-form h2 {
+  color: black;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.edit-form label {
+  color: black;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.edit-form input {
+  width: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.edit-form input:focus::placeholder {
+  color: transparent;
+}
+
+.edit-form input.text_input {
+  color: black;
+  cursor: not-allowed;
+}
+
+.edit-form button {
+  background-color: #00bc77;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 10px 40px;
+  border-color: #00bc77;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in;
+}
+
+.edit-form button:hover {
+  background-color: #008e55;
+}
+
+.edit-form button:focus {
+  outline: none;
+}
+
+.buttons-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}

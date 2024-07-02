@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-       console.log('Token from localStorage:', token); // Debug log
+    console.log('Token from localStorage:', token); // Debug log
       dispatch(setToken(token));
     }  else {
     console.warn('Token from localStorage is undefined or null');
@@ -44,3 +44,10 @@ const App = () => {
 };
 
 export default App;
+ 
+/*Explications
+
+useEffect : Exécute une fonction au montage du composant. Ici, il récupère le token depuis localStorage et le dispatche dans Redux.
+    console.log : Log pour vérifier la présence du token dans localStorage pour des fins de débogage.
+    dispatch(setToken(token)) : Dispatche l'action pour définir le token dans l'état global de l'application.
+    console.warn : Avertissement si le token est absent ou invalide.*/

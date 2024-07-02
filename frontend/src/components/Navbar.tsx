@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from "../app/hooks"; // Importation de
 import { selectUser, logout } from "../features/auth/authSlice"; // Importation des sélecteurs et actions depuis le slice d'authentification
 import logo from "../assets/argentBankLogo.webp"; // Importation du logo de la banque
 
+
 const Navbar = () => {
   const dispatch = useAppDispatch(); // Initialisation du hook useAppDispatch pour dispatcher des actions
   const user = useAppSelector(selectUser); // Utilisation du sélecteur pour récupérer les informations de l'utilisateur connecté depuis le store
@@ -44,6 +45,7 @@ const Navbar = () => {
             Sign  In {/* Texte pour la connexion */}
           </NavLink>
         )}
+        
       </div>
     </nav>
   );
