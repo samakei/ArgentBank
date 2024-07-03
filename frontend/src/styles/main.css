@@ -276,7 +276,7 @@ main{
   margin: 0 auto;
   margin-top: 30px;
   width: 270px;
-  background: white;
+ background-color: #fff;
   border-radius: 10px;
 }
 .edit_form h1 {
@@ -316,6 +316,12 @@ main{
   cursor: pointer;
   border-radius: 5px;
 }
+ .button_form-action {
+  display: flex;
+}
+.per{
+  display: flex;
+}
 /*
 fin edit
 */
@@ -336,10 +342,7 @@ fin edit
   background-color: #00bc77;
   color: #fff;
 }
-.account {
-  display: flex;
-  align-items: center ;
-}
+
 @media (min-width: 720px) {
   .account {
     flex-direction: row;

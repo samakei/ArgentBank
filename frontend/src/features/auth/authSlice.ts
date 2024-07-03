@@ -1,6 +1,6 @@
 // src/features/auth/authSlice.ts
-// src/features/auth/authSlice.ts
-import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import type { RootState } from '../../app/store';
 
@@ -15,7 +15,8 @@ interface UserProfile {
   status: number;
   message: string;
   createdAt: string;
-  updatedAt: string;
+  updatedAt: string
+  
 }
 
 // Interface décrivant l'état d'authentification dans Redux
@@ -80,15 +81,15 @@ export const fetchUserProfile = createAsyncThunk(
       console.log("Réponse brute de l'API :", response.data);
 
       // Extraction correcte des données utilisateur de la réponse API
-      const user = response.data.body;
+      const user = response.data.body ;
 
       if (!user) {
         throw new Error("Les données utilisateur ne sont pas présentes dans la réponse de l'API");
       }
 
       console.log("Profil utilisateur récupéré :", user);
-
-      return user as UserProfile;
+      //return = user
+      return  user as UserProfile;
     } catch (error: any) {
       console.error("Erreur lors de la récupération du profil utilisateur :", error);
       return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
@@ -114,7 +115,7 @@ export const updateUser = createAsyncThunk(
           'Authorization': `Bearer ${token}`,
         },
       });
-
+    
       return response.data.body.user as UserProfile;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);

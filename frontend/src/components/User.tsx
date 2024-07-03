@@ -1,62 +1,40 @@
 //User.tsx
-import { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { fetchUserProfile, selectUser, updateUser, selectToken } from "../features/auth/authSlice";
-import UserAccount from "../components/UserAccount";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { selectUser, selectToken, fetchUserProfile } from '../features/auth/authSlice';
+import UserAccount from './UserAccount';
+import EditPseudo from './EditPseudo'; //  le chemin editpseudo
 
 const User = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const token = useAppSelector(selectToken) || localStorage.getItem("token");
-
+  const token = useAppSelector(selectToken);
   const [editMode, setEditMode] = useState(false);
-  const [pseudo, setPseudo] = useState(user?.userName || "");
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
-  // useEffect pour récupérer le profil utilisateur si le token est présent
   useEffect(() => {
     if (!user && token) {
-      dispatch(fetchUserProfile())
-        .unwrap()
-        .then((fetchedUser) => {
-          console.log("Utilisateur récupéré :", fetchedUser);
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la récupération des données utilisateur :', error);
-          setShouldRedirect(true);
-        });
+      dispatch(fetchUserProfile());
     } else if (!token) {
       setShouldRedirect(true);
     }
   }, [user, token, dispatch]);
 
-  // Redirection vers la page de connexion si l'utilisateur n'est pas authentifié
   if (shouldRedirect) {
     return <Navigate to="/sign-in" />;
   }
 
-  // Gestion du passage en mode édition
   const handleEdit = () => {
     setEditMode(true);
   };
 
-  // Gestion de la sauvegarde des modifications
-  const handleSave = () => {
-    if (user) {
-      dispatch(updateUser({ userName: pseudo }))
-        .unwrap()
-        .then(() => setEditMode(false))
-        .catch((error) => {
-          console.error('Erreur de mise à jour du pseudo :', error);
-        });
-    }
+  const handleSaveSuccess = () => {
+    setEditMode(false);
   };
 
-  // Gestion de l'annulation des modifications
   const handleCancel = () => {
     setEditMode(false);
-    setPseudo(user?.userName || "");
   };
 
   return (
@@ -64,43 +42,11 @@ const User = () => {
       <main className="main bg-dark">
         <div className="header">
           {editMode ? (
-            <div className="edit_form">
-              <h1>Edit username</h1>
-              <label htmlFor="edit-pseudo">Pseudo</label>
-              <input
-                type="text"
-                id="edit-pseudo"
-                placeholder="Enter your new pseudo"
-                value={pseudo}
-                onChange={(e) => setPseudo(e.target.value)}
-              />
-              <div>
-                <label htmlFor="firstName">First name :</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  value={user?.firstName || ""}
-                  disabled
-                  className="text_input"
-                />
-              </div>
-              <div>
-                <label htmlFor="lastName">Last name :</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  value={user?.lastName || ""}
-                  disabled
-                  className="text_input"
-                />
-              </div>
-              <button type="button" className="save-button" onClick={handleSave}>
-                Save
-              </button>
-              <button type="button" className="cancel-button" onClick={handleCancel}>
-                Cancel
-              </button>
-            </div>
+            <EditPseudo
+              initialPseudo={user?.userName || ""}
+              onCancel={handleCancel}
+              onSaveSuccess={handleSaveSuccess}
+            />
           ) : (
             <div>
               <h2>
@@ -136,3 +82,8 @@ const User = () => {
 };
 
 export default User;
+
+/* Exportation parti editpseudo
+    User.tsx: Ce composant utilise maintenant EditPseudo pour gérer le mode édition. Les fonctions handleEdit, handleSaveSuccess, et handleCancel sont responsables de la transition entre les modes d'affichage et d'édition.
+
+En séparant le mode édition dans un composant distinct, vous rendez le code plus modulaire, plus facile à comprendre et à maintenir. */
