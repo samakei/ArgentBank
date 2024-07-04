@@ -48,7 +48,7 @@ export const login = createAsyncThunk(
       }
 
       localStorage.setItem('token', token); // Stockage du token dans le localStorage
-      return { user: data.body.user as UserProfile, token }; // Retourne les données utilisateur et le token
+      return { token }; // Retourne les données utilisateur et le token
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || error.message); // Retourne le message d'erreur
     }
@@ -86,7 +86,7 @@ export const fetchUserProfile = createAsyncThunk(
         throw new Error("Les données utilisateur ne sont pas présentes dans la réponse de l'API"); // Erreur si les données utilisateur ne sont pas présentes
       }
 
-      console.log("Profil utilisateur récupéré :", user);
+     console.log("Profil utilisateur récupéré :", user);
       return user as UserProfile; // Retourne les données utilisateur
     } catch (error: any) {
       console.error("Erreur lors de la récupération du profil utilisateur :", error);
@@ -129,6 +129,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
+      state.status = null;
       localStorage.removeItem('token'); // Suppression du token du localStorage
     },
     // Action synchrone pour définir le token JWT dans l'état
@@ -144,7 +145,7 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded'; // Mise à jour du statut après une connexion réussie
-        state.user = action.payload.user; // Mise à jour des informations utilisateur
+
         state.token = action.payload.token; // Mise à jour du token
       })
       .addCase(login.rejected, (state, action) => {

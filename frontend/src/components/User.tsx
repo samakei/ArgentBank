@@ -11,17 +11,15 @@ const User = () => {
   const user = useAppSelector(selectUser); // Utilisation du sélecteur pour récupérer les informations de l'utilisateur connecté depuis le store
   const token = useAppSelector(selectToken); // Utilisation du sélecteur pour récupérer le token d'authentification depuis le store
   const [editMode, setEditMode] = useState(false); // État local pour gérer le mode édition
-  const [shouldRedirect, setShouldRedirect] = useState(false); // État local pour gérer la redirection
+  
 
   useEffect(() => {
     if (!user && token) { // Si l'utilisateur n'est pas connecté mais qu'un token existe
       dispatch(fetchUserProfile()); // Dispatcher l'action pour récupérer le profil utilisateur
-    } else if (!token) { // Si aucun token n'est présent
-      setShouldRedirect(true); // Définir shouldRedirect à true pour rediriger vers la page de connexion
-    }
+    } 
   }, [user, token, dispatch]); // Dépendances du useEffect
 
-  if (shouldRedirect) { // Si shouldRedirect est true
+  if (!token) { // Si shouldRedirect est true
     return <Navigate to="/sign-in" />; // Rediriger vers la page de connexion
   }
 
