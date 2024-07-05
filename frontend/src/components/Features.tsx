@@ -31,10 +31,11 @@ const Features = () => {
     </section>
   );
 };
+export default Features;
+
 /* 2 Features Component:
 
 Ce composant utilise plusieurs instances de FeatureItem pour afficher les différentes fonctionnalités de l'application.
 Pour chaque FeatureItem, il passe les valeurs des icônes, des titres et des contenus appropriés en tant que props.*/
 
 // Exportation du composant `Features` pour pouvoir l'utiliser dans d'autres fichiers
-export default Features;

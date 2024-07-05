@@ -19,7 +19,8 @@ const User = () => {
     } 
   }, [user, token, dispatch]); // Dépendances du useEffect
 
-  if (!token) { // Si shouldRedirect est true
+     // Si aucun token n'est présent, rediriger vers la page de connexion
+  if (!token) { 
     return <Navigate to="/sign-in" />; // Rediriger vers la page de connexion
   }
 
