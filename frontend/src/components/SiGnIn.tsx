@@ -43,30 +43,34 @@ const SignIn = () => {
           <i className="fa fa-user-circle sign-in-icon"></i> {/* Icône de l'utilisateur */}
           <h1>Sign In</h1> {/* Titre de la section */}
           <form onSubmit={handleSubmit}> {/* Formulaire de connexion */}
-            <div className="input-wrapper">
-              <label htmlFor="email">Email</label> {/* Étiquette pour l'email */}
-              <input
-                type="text"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)} // Met à jour l'état de l'email
-              />
-            </div>
-            <div className="input-wrapper">
-              <label htmlFor="password">Mot de passe</label> {/* Étiquette pour le mot de passe */}
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} // Met à jour l'état du mot de passe
-              />
-            </div>
-            <button className="sign-in-button" type="submit">
-              Sign In
-            </button> {/* Bouton de soumission */}
-            {/* Affiche un message d'erreur si l'authentification échoue */}
-            {status === "failed" && <div className="error">{error}</div>} {/* Affichage des erreurs */}
-          </form>
+  <div className="input-wrapper">
+    <label htmlFor="email">Email</label> {/* Étiquette pour l'email */}
+    <input
+      type="text" // Type d'entrée texte
+      id="email" // Identifiant unique pour l'élément de saisie de l'email
+      name="email" // Nom de l'élément pour l'accès via les objets de formulaire
+      autoComplete="email" // Attribut d'autocomplétion pour les emails
+      value={email} // Valeur actuelle de l'email dans l'état
+      onChange={(e) => setEmail(e.target.value)} // Met à jour l'état de l'email lors de la modification
+    />
+  </div>
+  <div className="input-wrapper">
+    <label htmlFor="password">Mot de passe</label> {/* Étiquette pour le mot de passe */}
+    <input
+      type="password" // Type d'entrée mot de passe
+      id="password" // Identifiant unique pour l'élément de saisie du mot de passe
+      name="password" // Nom de l'élément pour l'accès via les objets de formulaire
+      autoComplete="current-password" // Attribut d'autocomplétion pour les mots de passe actuels
+      value={password} // Valeur actuelle du mot de passe dans l'état
+      onChange={(e) => setPassword(e.target.value)} // Met à jour l'état du mot de passe lors de la modification
+    />
+  </div>
+  <button className="sign-in-button" type="submit">
+    Sign In
+  </button> {/* Bouton de soumission */}
+  {/* Affiche un message d'erreur si l'authentification échoue */}
+  {status === "failed" && <div className="error">{error}</div>} {/* Affichage des erreurs */}
+</form>
         </section>
       </main>
     </div>

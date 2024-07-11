@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: Bank Argent API documentation
+  title: Bank Argent documentation API
   description: Contains all available API endpoints in this codebase
   version: '2.1.0'
   termsOfService: 'http://swagger.io/terms/'
@@ -303,7 +303,7 @@ securityDefinitions:
 
 # Notes importantes
 #
- #   Suppression des transactions: Comme indiqué, les transactions ne seront pas supprimées, mais seulement les informations peuvent être mises à jour ou supprimées.
+ #   Suppression des transactions: Comme indiqué et recommandée, les transactions ne seront pas supprimées, mais seulement les informations peuvent être mises à jour ou supprimées.
  #   Ajout de transactions: L'ajout de transactions n'est pas prévu dans cette phase, seulement l'ajout d'informations sur les transactions existantes via des mises à jour.
 
-# Ce fichier swagger-2.yaml devrait maintenant répondre à toutes les exigences pour la gestion des transactions dans la phase 2 du projet
+# Ce fichier swagger-2.yaml devrait maintenant répondre à toutes les exigences pour la gestion des transactions dans la phase 2 du projet.

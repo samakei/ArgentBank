@@ -28,10 +28,10 @@ interface AuthState {
 
 // État initial de l'authentification
 const initialState: AuthState = {
-  user: null,
-  token: localStorage.getItem('token'), // Récupération du token depuis le localStorage
-  status: 'idle',
-  error: null,
+  user: null, // Aucun utilisateur n'est connecté initialement
+  token: localStorage.getItem('token'), // Récupération du token JWT depuis le localStorage. 
+  status: 'idle', // Statut initial de l'état est "idle", indiquant aucune action en cours
+  error: null, // Aucun message d'erreur initialement
 };
 
 // Action asynchrone pour se connecter à l'API avec email et mot de passe

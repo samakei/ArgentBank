@@ -11,12 +11,14 @@ const User = () => {
   const user = useAppSelector(selectUser); // Utilisation du sélecteur pour récupérer les informations de l'utilisateur connecté depuis le store
   const token = useAppSelector(selectToken); // Utilisation du sélecteur pour récupérer le token d'authentification depuis le store
   const [editMode, setEditMode] = useState(false); // État local pour gérer le mode édition
+
   
 
   useEffect(() => {
     if (!user && token) { // Si l'utilisateur n'est pas connecté mais qu'un token existe
       dispatch(fetchUserProfile()); // Dispatcher l'action pour récupérer le profil utilisateur
     } 
+    
   }, [user, token, dispatch]); // Dépendances du useEffect
 
      // Si aucun token n'est présent, rediriger vers la page de connexion
