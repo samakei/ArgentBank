@@ -1,38 +1,39 @@
 swagger: '2.0'
 info:
-  title: Bank Argent documentation API
-  description: Contains all available API endpoints in this codebase
-  version: '2.1.0'
-  termsOfService: 'http://swagger.io/terms/'
-host: localhost:3001
-basePath: /api/v1
+  title: Bank Argent API documentation  # Titre de la documentation de l'API
+  description: Contains all available API endpoints in this codebase  # Description de la documentation
+  version: '2.1.0'  # Version de l'API
+  termsOfService: 'http://swagger.io/terms/'  # URL des termes de service
+host: localhost:3001  # Hôte où l'API est hébergée
+basePath: /api/v1  # Chemin de base pour toutes les routes de l'API
 schemes:
-  - http
+  - http  # Schéma de communication utilisé (HTTP)
 paths:
   /user/login:
     post:
       tags:
-        - User Module
-      summary: Login
-      description: API for Login
+        - User Module  # Tag pour catégoriser ce point de terminaison
+      summary: Login  # Résumé de ce que fait le point de terminaison
+      description: API for Login  # Description détaillée
       parameters:
         - in: body
           name: body
-          description: Login Payload
-          required: true
+          description: Login Payload  # Description du paramètre attendu
+          required: true  # Indique que ce paramètre est obligatoire
           schema:
-            $ref: '#/definitions/Login'
+            $ref: '#/definitions/Login'  # Référence à la définition Login
       produces:
-        - application/json
+        - application/json  # Format de la réponse produit
       responses:
         '200':
-          description: Login Successfully
+          description: Login Successfully  # Description de la réponse pour le code 200
           schema:
-            $ref: '#/definitions/LoginResponse'
+            $ref: '#/definitions/LoginResponse'  # Référence à la définition LoginResponse
         '400':
-          description: Invalid Fields
+          description: Invalid Fields  # Description de la réponse pour le code 400
         '500':
-          description: Internal Server Error
+          description: Internal Server Error  # Description de la réponse pour le code 500
+
   /user/signup:
     post:
       tags:
@@ -57,10 +58,11 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+
   /user/profile:
     post:
       security:
-        - Bearer: []
+        - Bearer: []  # Sécurité, nécessite un jeton Bearer
       tags:
         - User Module
       summary: User Profile API
@@ -108,13 +110,6 @@ paths:
         - Transactions Module
       summary: Get all transactions for the current month grouped by account
       description: Retrieve all transactions for the current month, grouped by account
-      parameters:
-        - in: query
-          name: month
-          required: true
-          type: string
-          format: date
-          description: The month to retrieve transactions for, in the format YYYY-MM
       produces:
         - application/json
       responses:
@@ -156,6 +151,36 @@ paths:
           description: Transaction not found
         '500':
           description: Internal Server Error
+
+  /transactions/category/{category}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions Module
+      summary: Get transactions by category
+      description: Retrieve transactions information by category
+      parameters:
+        - in: path
+          name: category
+          required: true
+          description: Category of the transactions to retrieve
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid Fields
+        '404':
+          description: Transactions not found
+        '500':
+          description: Internal Server Error
     put:
       security:
         - Bearer: []
@@ -191,119 +216,140 @@ paths:
 
 definitions:
   User:
+    type: object
     properties:
       email:
         type: string
-        description: user email
+        description: user email  # Email de l'utilisateur
       password:
         type: string
-        description: user password
+        description: user password  # Mot de passe de l'utilisateur
       firstName:
         type: string
-        description: user first name
+        description: user first name  # Prénom de l'utilisateur
       lastName:
         type: string
-        description: user last name
+        description: user last name  # Nom de famille de l'utilisateur
       userName:
         type: string
-        description: user public name
+        description: user public name  # Nom public de l'utilisateur
+
   Login:
+    type: object
     properties:
       email:
         type: string
-        description: user email
+        description: user email  # Email pour la connexion
       password:
         type: string
-        description: user password
+        description: user password  # Mot de passe pour la connexion
+
   ApiResponse:
     type: object
     properties:
       status:
-        type: integer
+        type: integer  # Code de statut de la réponse
       message:
-        type: string
+        type: string  # Message de la réponse
       body:
         type: object
         properties:
           id:
-            type: string
+            type: string  # Identifiant de l'objet dans la réponse
           email:
-            type: string
+            type: string  # Email de l'objet dans la réponse
+
   LoginResponse:
     type: object
     properties:
       token:
-        type: string
+        type: string  # Jeton d'authentification après la connexion
+
   UserProfile:
     type: object
     properties:
       userName:
-        type: string
+        type: string  # Nom public de l'utilisateur pour le profil
+
   Transaction:
     type: object
     properties:
       id:
         type: string
-        description: Transaction ID
+        description: Transaction ID  # Identifiant de la transaction
       accountId:
         type: string
-        description: Account ID
+        description: Account ID  # Identifiant du compte associé à la transaction
       date:
         type: string
         format: date
-        description: Date of the transaction
+        description: Date of the transaction  # Date de la transaction
       amount:
         type: number
         format: double
-        description: Amount of the transaction
-      type:
+        description: Amount of the transaction  # Montant de la transaction
+      balance:
+        type: number
+        description: Balance of the account after the transaction  # Solde du compte après la transaction
+      transactionType:
         type: string
-        description: Type of the transaction (e.g., debit, credit)
+        description: Type of the transaction (e.g., debit, credit)  # Type de la transaction (débit, crédit)
       description:
         type: string
-        description: Description of the transaction
+        description: Description of the transaction  # Description de la transaction
+      note:
+        type: string
+        description: Note about the transaction  # Note sur la transaction
+      category:
+        type: string
+        description: Category of the transaction  # Catégorie de la transaction
+
   TransactionInfo:
     type: object
     properties:
       amount:
         type: number
         format: double
-        description: Amount of the transaction
-      type:
+        description: Amount of the transaction  # Montant de la transaction
+      transactionType:
         type: string
-        description: Type of the transaction (e.g., debit, credit)
+        description: Type of the transaction (e.g., debit, credit)  # Type de la transaction (débit, crédit)
       description:
         type: string
-        description: Description of the transaction
+        description: Description of the transaction  # Description de la transaction
+      note:
+        type: string
+        description: Note about the transaction  # Note sur la transaction
+      category:
+        type: string
+        description: Category of the transaction  # Catégorie de la transaction
+
   TransactionGroupedByAccount:
     type: object
     properties:
       accountId:
         type: string
-        description: Account ID
+        description: Account ID  # Identifiant du compte
       transactions:
         type: array
         items:
-          $ref: '#/definitions/Transaction'
+          $ref: '#/definitions/Transaction'  # Liste des transactions associées au compte
+
+  CategoryInfo:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the category  # Nom de la catégorie
+      description:
+        type: string
+        description: Description of the category  # Description de la catégorie
+      note:
+        type: string
+        description: Note about the category  # Note sur la catégorie
 
 securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
-    in: header
-
-#Explication des nouvelles routes API mises à jour
-
-   # /transactions:
-  #      GET: Récupérer toutes les transactions pour le mois en cours, groupées par compte. Un paramètre de requête month (format YYYY-MM) est requis pour spécifier le mois.
-
-#    /transactions/{transactionId}:
- #       GET: Récupérer les détails d'une transaction spécifique.
-#        PUT: Mettre à jour les informations d'une transaction spécifique.
-
-# Notes importantes
-#
- #   Suppression des transactions: Comme indiqué et recommandée, les transactions ne seront pas supprimées, mais seulement les informations peuvent être mises à jour ou supprimées.
- #   Ajout de transactions: L'ajout de transactions n'est pas prévu dans cette phase, seulement l'ajout d'informations sur les transactions existantes via des mises à jour.
-
-# Ce fichier swagger-2.yaml devrait maintenant répondre à toutes les exigences pour la gestion des transactions dans la phase 2 du projet.
+    in: header  # Le jeton Bearer est transmis dans l'en-tête HTTP
