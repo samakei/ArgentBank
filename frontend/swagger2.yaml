@@ -362,26 +362,6 @@ definitions:  # Définition des schémas utilisés dans les paramètres et les r
         type: array
         items:
           $ref: '#/definitions/Transaction'
-
-  CategoryInfo:
-    type: object
-    properties:
-      name:
-        type: string
-        description: Nom de la catégorie
-      description:
-        type: string
-        description: Description de la catégorie
-      transactionType:
-        type: string
-        description: Type de la transaction (e.g., débit, crédit)
-      category:
-        type: string
-        description: Catégorie de la transaction
-      note:
-        type: string
-        description: Note sur la catégorie
-
 securityDefinitions:  # Définition des schémas de sécurité.
   Bearer:
     type: apiKey
