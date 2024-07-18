@@ -1,263 +1,233 @@
-swagger: '2.0'
+swagger: '2.0'  # Spécifie la version de Swagger utilisée.
 info:
-  title: Bank Argent API documentation  # Titre de la documentation de l'API
-  description: Contains all available API endpoints in this codebase  # Description de la documentation
-  version: '2.1.0'  # Version de l'API
-  termsOfService: 'http://swagger.io/terms/'  # URL des termes de service
-host: localhost:3001  # Hôte où l'API est hébergée
-basePath: /api/v1  # Chemin de base pour toutes les routes de l'API
+  title: Documentation de l'API Bank Argent  # Titre de la documentation de l'API.
+  description: Contient tous les points d'accès API disponibles dans cette base de code  # Description de l'API.
+  version: '2.1.0'  # Version de l'API.
+  termsOfService: 'http://swagger.io/terms/'  # URL des conditions d'utilisation de l'API.
+host: localhost:3001  # Hôte où l'API est hébergée.
+basePath: /api/v1  # Chemin de base pour tous les points d'accès de l'API.
 schemes:
-  - http  # Schéma de communication utilisé (HTTP)
+  - http  # Schéma de transfert utilisé (ici HTTP).
 paths:
-  /user/login:
-    post:
+  /user/login:  # Point d'accès pour la connexion de l'utilisateur.
+    post:  # Méthode HTTP utilisée (POST).
       tags:
-        - User Module  # Tag pour catégoriser ce point de terminaison
-      summary: Login  # Résumé de ce que fait le point de terminaison
-      description: API for Login  # Description détaillée
+        - Module Utilisateur  # Tag pour regrouper les points d'accès liés aux utilisateurs.
+      summary: Connexion  # Résumé du point d'accès.
+      description: API pour la connexion  # Description du point d'accès.
       parameters:
-        - in: body
+        - in: body  # Le paramètre est dans le corps de la requête.
           name: body
-          description: Login Payload  # Description du paramètre attendu
-          required: true  # Indique que ce paramètre est obligatoire
+          description: Charge utile de connexion  # Description du paramètre.
+          required: true  # Indique que ce paramètre est obligatoire.
           schema:
-            $ref: '#/definitions/Login'  # Référence à la définition Login
+            $ref: '#/definitions/Login'  # Référence à la définition du schéma Login.
       produces:
-        - application/json  # Format de la réponse produit
+        - application/json  # Format de réponse produit.
       responses:
-        '200':
-          description: Login Successfully  # Description de la réponse pour le code 200
+        '200':  # Code de statut HTTP pour une réponse réussie.
+          description: Connexion réussie  # Description de la réponse.
           schema:
-            $ref: '#/definitions/LoginResponse'  # Référence à la définition LoginResponse
+            $ref: '#/definitions/LoginResponse'  # Référence à la définition du schéma LoginResponse.
         '400':
-          description: Invalid Fields  # Description de la réponse pour le code 400
+          description: Champs invalides  # Description de la réponse pour un champ invalide.
         '500':
-          description: Internal Server Error  # Description de la réponse pour le code 500
+          description: Erreur interne du serveur  # Description de la réponse pour une erreur interne.
 
-  /user/signup:
+  /user/signup:  # Point d'accès pour l'inscription de l'utilisateur.
     post:
       tags:
-        - User Module
-      summary: Signup
-      description: API for Signup
+        - Module Utilisateur
+      summary: Inscription
+      description: API pour l'inscription
       parameters:
         - in: body
           name: body
-          description: Signup Payload
+          description: Charge utile d'inscription
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/User'  # Référence à la définition du schéma User.
       produces:
         - application/json
       responses:
         '200':
-          description: Signup Successfully
+          description: Inscription réussie
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: '#/definitions/ApiResponse'  # Référence à la définition du schéma ApiResponse.
         '400':
-          description: Invalid Fields
+          description: Champs invalides
         '500':
-          description: Internal Server Error
+          description: Erreur interne du serveur
 
-  /user/profile:
+  /user/profile:  # Point d'accès pour gérer le profil de l'utilisateur.
     post:
       security:
-        - Bearer: []  # Sécurité, nécessite un jeton Bearer
+        - Bearer: []  # Sécurité avec un token Bearer.
       tags:
-        - User Module
-      summary: Fetch User Profile  # Récupérer le profil de l'utilisateur
-      description: API for fetching a user profile  # API pour récupérer un profil utilisateur
+        - Module Utilisateur
+      summary: Récupérer le profil utilisateur
+      description: API pour récupérer un profil utilisateur
       responses:
         '200':
-          description: User profile retrieved successfully  # Profil utilisateur récupéré avec succès
+          description: Profil utilisateur récupéré avec succès
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields  # Champs invalides
+          description: Champs invalides
         '500':
-          description: Internal Server Error  # Erreur serveur interne
+          description: Erreur interne du serveur
     put:
       security:
-        - Bearer: []  # Sécurité, nécessite un jeton Bearer
+        - Bearer: []
       tags:
-        - User Module
-      summary: Update User Profile  # Mettre à jour le profil de l'utilisateur
-      description: API for updating a user profile  # API pour mettre à jour un profil utilisateur
+        - Module Utilisateur
+      summary: Mettre à jour le profil utilisateur
+      description: API pour mettre à jour un profil utilisateur
       parameters:
         - in: body
           name: body
-          description: Update user profile attributes  # Mettre à jour les attributs du profil utilisateur
+          description: Mettre à jour les attributs du profil utilisateur
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'  # Référence à la définition UserProfile
+            $ref: '#/definitions/UserProfile'  # Référence à la définition du schéma UserProfile.
       produces:
         - application/json
       responses:
         '200':
-          description: User profile updated successfully  # Profil utilisateur mis à jour avec succès
+          description: Profil utilisateur mis à jour avec succès
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields  # Champs invalides
+          description: Champs invalides
         '500':
-          description: Internal Server Error  # Erreur serveur interne
+          description: Erreur interne du serveur
 
-  /transactions:
+  /transactions:  # Point d'accès pour obtenir toutes les transactions.
     get:
       security:
-        - Bearer: []  # Sécurité, nécessite un jeton Bearer
+        - Bearer: []
       tags:
-        - Transactions Module
-      summary: Get all transactions for the current month grouped by account  # Obtenir toutes les transactions du mois en cours groupées par compte
-      description: Retrieve all transactions for the current month, grouped by account  # Récupérer toutes les transactions du mois en cours, groupées par compte
+        - Module Transactions
+      summary: Obtenir toutes les transactions du mois en cours groupées par compte
+      description: Récupérer toutes les transactions du mois en cours, groupées par compte
       produces:
         - application/json
       responses:
         '200':
-          description: Transactions retrieved successfully  # Transactions récupérées avec succès
+          description: Transactions récupérées avec succès
           schema:
             type: array
             items:
-              $ref: '#/definitions/TransactionGroupedByAccount'  # Référence à la définition TransactionGroupedByAccount
+              $ref: '#/definitions/TransactionGroupedByAccount'  # Référence à la définition du schéma TransactionGroupedByAccount.
         '400':
-          description: Invalid Fields  # Champs invalides
+          description: Champs invalides
         '500':
-          description: Internal Server Error  # Erreur serveur interne
+          description: Erreur interne du serveur
 
-  /transactions/{transactionId}:
+  /transactions/{transactionId}:  # Point d'accès pour obtenir les détails d'une transaction spécifique.
     get:
       security:
-        - Bearer: []  # Sécurité, nécessite un jeton Bearer
+        - Bearer: []
       tags:
-        - Transactions Module
-      summary: Get details of a specific transaction  # Obtenir les détails d'une transaction spécifique
-      description: Retrieve detailed information about a specific transaction  # Récupérer des informations détaillées sur une transaction spécifique
+        - Module Transactions
+      summary: Obtenir les détails d'une transaction spécifique
+      description: Récupérer des informations détaillées sur une transaction spécifique
       parameters:
         - in: path
           name: transactionId
           required: true
-          description: ID of the transaction to retrieve  # ID de la transaction à récupérer
+          description: ID de la transaction à récupérer
           type: string
       produces:
         - application/json
       responses:
         '200':
-          description: Transaction details retrieved successfully  # Détails de la transaction récupérés avec succès
+          description: Détails de la transaction récupérés avec succès
           schema:
-            $ref: '#/definitions/TransactionDetails'  # Référence à la définition TransactionDetails
+            $ref: '#/definitions/TransactionDetails'  # Référence à la définition du schéma TransactionDetails.
         '400':
-          description: Invalid Fields  # Champs invalides
+          description: Champs invalides
         '404':
-          description: Transaction not found  # Transaction non trouvée
+          description: Transaction non trouvée
         '500':
-          description: Internal Server Error  # Erreur serveur interne
-
-  /transactions/category/{category}:
-    get:
-      security:
-        - Bearer: []  # Sécurité, nécessite un jeton Bearer
-      tags:
-        - Transactions Module
-      summary: Get transactions by category  # Obtenir les transactions par catégorie
-      description: Retrieve transactions information by category  # Récupérer les informations des transactions par catégorie
-      parameters:
-        - in: path
-          name: category
-          required: true
-          description: Category of the transactions to retrieve  # Catégorie des transactions à récupérer
-          type: string
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Transactions retrieved successfully  # Transactions récupérées avec succès
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Transaction'  # Référence à la définition Transaction
-        '400':
-          description: Invalid Fields  # Champs invalides
-        '404':
-          description: Transactions not found  # Transactions non trouvées
-        '500':
-          description: Internal Server Error  # Erreur serveur interne
+          description: Erreur interne du serveur
     put:
       security:
-        - Bearer: []  # Sécurité, nécessite un jeton Bearer
+        - Bearer: []
       tags:
-        - Transactions Module
-      summary: Update transaction by category  # Mettre à jour la transaction par catégorie
-      description: Update details of a specific transaction  # Mettre à jour les détails d'une transaction spécifique
+        - Module Transactions
+      summary: Mettre à jour la transaction
+      description: Mettre à jour les détails d'une transaction spécifique
       parameters:
         - in: path
-          name: category
+          name: transactionId
           required: true
-          description: Category of the transaction to update  # Catégorie de la transaction à mettre à jour
+          description:  indentifiant de la transaction à mettre à jour
           type: string
         - in: body
           name: body
-          description: Updated transaction information  # Informations mises à jour sur la transaction
+          description: Informations mises à jour sur la transaction
           required: true
           schema:
-            $ref: '#/definitions/TransactionInfo'  # Référence à la définition TransactionInfo
+            $ref: '#/definitions/TransactionInfo'  # Référence à la définition du schéma TransactionInfo.
       produces:
         - application/json
       responses:
         '200':
-          description: Transaction information updated successfully  # Informations de la transaction mises à jour avec succès
+          description: Informations de la transaction mises à jour avec succès
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields  # Champs invalides
+          description: Champs invalides
         '404':
-          description: Transaction not found  # Transaction non trouvée
+          description: Transaction non trouvée
         '500':
-          description: Internal Server Error  # Erreur serveur interne
+          description: Erreur interne du serveur
 
-definitions:
+definitions:  # Définition des schémas utilisés dans les paramètres et les réponses.
   User:
     type: object
     properties:
       email:
         type: string
-        description: User email  # Email de l'utilisateur
+        description: Email de l'utilisateur
       password:
         type: string
-        description: User password  # Mot de passe de l'utilisateur
+        description: Mot de passe de l'utilisateur
       firstName:
         type: string
-        description: User first name  # Prénom de l'utilisateur
+        description: Prénom de l'utilisateur
       lastName:
         type: string
-        description: User last name  # Nom de famille de l'utilisateur
+        description: Nom de famille de l'utilisateur
       userName:
         type: string
-        description: User public name  # Nom public de l'utilisateur
+        description: Nom public de l'utilisateur
 
   Login:
     type: object
     properties:
       email:
         type: string
-        description: User email  # Email pour la connexion
+        description: Email pour la connexion
       password:
         type: string
-        description: User password  # Mot de passe pour la connexion
+        description: Mot de passe pour la connexion
 
   ApiResponse:
     type: object
     properties:
       status:
-        type: integer  # Code de statut de la réponse
+        type: integer
       message:
-        type: string  # Message de la réponse
+        type: string
       body:
         type: object
         properties:
           id:
-            type: string  # Identifiant de l'objet dans la réponse
+            type: string
           email:
-            type: string  # Email de l'objet dans la réponse
+            type: string
           accountId:
             type: string
           date:
@@ -280,116 +250,140 @@ definitions:
     type: object
     properties:
       token:
-        type: string  # Jeton d'authentification après la connexion
+        type: string
 
   UserProfile:
     type: object
     properties:
       userName:
-        type: string  # Nom public de l'utilisateur pour le profil
+        type: string
 
   Transaction:
     type: object
     properties:
       id:
         type: string
-        description: Transaction ID  # Identifiant de la transaction
+        description: Identifiant de la transaction
       accountId:
         type: string
-        description: Account ID  # Identifiant du compte associé à la transaction
+        description: Identifiant du compte
       date:
         type: string
         format: date
-        description: Date of the transaction  # Date de la transaction
+        description: Date de la transaction
       description:
         type: string
-        description: Description of the transaction  # Description de la transaction
+        description: Description de la transaction
       amount:
         type: number
         format: double
-        description: Amount of the transaction  # Montant de la transaction
+        description: Montant de la transaction
       balance:
         type: number
-        description: Balance of the account after the transaction  # Solde du compte après la transaction
+        description: Solde du compte après la transaction
+      transactionType:
+        type: string
+        description: Type de la transaction (e.g., débit, crédit)
+      category:
+        type: string
+        description: Catégorie de la transaction
+      note:
+        type: string
+        description: Note sur la transaction
       
-  TransactionDetails:  # Définition des détails de la transaction
+  TransactionDetails:
     type: object
     properties:
       accountId:
         type: string
-        description: ID of the account associated with the transaction  # ID du compte associé à la transaction
+        description: ID du compte associé à la transaction
       date:
         type: string
         format: date
-        description: Date of the transaction  # Date de la transaction
+        description: Date de la transaction
       description:
         type: string
-        description: Description of the transaction  # Description de la transaction
+        description: Description de la transaction
       amount:
         type: number
-        description: Amount of the transaction  # Montant de la transaction
+        description: Montant de la transaction
       balance:
         type: number
-        description: Balance of the account after the transaction  # Solde du compte après la transaction
+        description: Solde du compte après la transaction
       transactionType:
         type: string
-        description: Type of the transaction (e.g., debit, credit)  # Type de la transaction (débit, crédit)
+        description: Type de la transaction (e.g., débit, crédit)
       category:
         type: string
-        description: Category of the transaction  # Catégorie de la transaction
+        description: Catégorie de la transaction
       note:
         type: string
-        description: Note about the transaction  # Note sur la transaction
+        description: Note sur la transaction
 
-  TransactionInfo: #updated
+  TransactionInfo:
     type: object
     properties:
-      category:
+      id:
         type: string
-        description: Category of the transaction  # Catégorie de la transaction
-      note:
+        description: Identifiant de la transaction
+      accountId:
         type: string
-        description: Note about the transaction  # Note sur la transaction
+        description: Identifiant du compte
+      date:
+        type: string
+        format: date
+        description: Date de la transaction
       description:
         type: string
-        description: Description of the transaction  # Description de la transaction
+        description: Description de la transaction
+      amount:
+        type: number
+        description: Montant de la transaction
+      balance:
+        type: number
+        description: Solde du compte après la transaction
       transactionType:
         type: string
-        description: Type of the transaction (e.g., debit, credit)  # Type de la transaction (débit, crédit)
+        description: Type de la transaction (e.g., débit, crédit)
+      category:
+        type: string
+        description: Catégorie de la transaction
+      note:
+        type: string
+        description: Note sur la transaction
 
   TransactionGroupedByAccount:
     type: object
     properties:
       accountId:
         type: string
-        description: Account ID  # Identifiant du compte
+        description: Identifiant du compte
       transactions:
         type: array
         items:
-          $ref: '#/definitions/Transaction'  # Liste des transactions associées au compte
+          $ref: '#/definitions/Transaction'
 
-  CategoryInfo:  # Définition des informations sur la catégorie
+  CategoryInfo:
     type: object
     properties:
       name:
         type: string
-        description: Name of the category  # Nom de la catégorie
+        description: Nom de la catégorie
       description:
         type: string
-        description: Description of the category  # Description de la catégorie
+        description: Description de la catégorie
       transactionType:
         type: string
-        description: Type of the transaction (e.g., debit, credit)  # Type de la transaction (débit, crédit)
+        description: Type de la transaction (e.g., débit, crédit)
       category:
         type: string
-        description: Category of the transaction  # Catégorie de la transaction
+        description: Catégorie de la transaction
       note:
         type: string
-        description: Note about the category  # Note sur la catégorie
-      
+        description: Note sur la catégorie
 
-securityDefinitions:
+securityDefinitions:  # Définition des schémas de sécurité.
   Bearer:
     type: apiKey
     name: Authorization
-    in: header  # Le jeton Bearer est transmis dans l'en-tête HTTP
+    in: header  # Le token Bearer doit être envoyé dans l'en-tête de la requête.
