@@ -123,6 +123,8 @@ paths:
           description: Mauvaise Requête  le serveur a reçu une requête invalide et ne peut pas la traiter en raison d'erreurs du côté du client.
         '401':
           description: Non autorisé
+        '404':
+          description: Transaction non trouvée
         '500':
           description: Erreur interne du serveur
 
@@ -182,7 +184,9 @@ paths:
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Champs invalides
+          description: Mauvaise Requête  le serveur a reçu une requête invalide et ne peut pas la traiter en raison d'erreurs du côté du client.
+        '401':
+          description: Non autorisé
         '404':
           description: Transaction non trouvée
         '500':
