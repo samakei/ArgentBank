@@ -29,7 +29,7 @@ const Navbar = () => {
           <>
             <NavLink className="main-nav-item" to="/user"> {/* Lien vers la page de profil utilisateur */}
               <i className="fa fa-user-circle"></i> {/* Icône de l'utilisateur */}
-              {user.firstName} {/* Affichage du prénom de l'utilisateur */}
+              {user.userName} {/* Affichage du prénom de l'utilisateur */}
             </NavLink>
 
 
